@@ -14,11 +14,12 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
 
-    robot_model='simple_box.urdf'
+#    robot_model='simple_box.urdf'
 
+    robot_model='test_bot.urdf'
     current_dir=get_package_share_directory('officebot_description')
     robot_model_path=os.path.join(current_dir,'urdf',robot_model)
-    
+
     use_sim_time = LaunchConfiguration('use_sim_time')
     rviz_config_dir=LaunchConfiguration('rviz_config_dir')
 
