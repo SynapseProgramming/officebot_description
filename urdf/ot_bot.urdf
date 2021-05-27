@@ -1,6 +1,5 @@
-
 <?xml version="1.0"?>
-<robot name="ot_bot" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="office_bot" xmlns:xacro="http://ros.org/wiki/xacro">
 <!--
   <xacro:property name="base_width" value="0.30"/>
   <xacro:property name="base_length" value="0.28"/>
@@ -13,8 +12,8 @@
     <visual>
       <geometry>
 
-        <box size="1 1 1"/>
-      <!--<mesh filename="package://officebot_description/meshes/otchassis.stl"/> -->
+        <!--<box size="1 1 1"/> -->
+      <mesh filename="package://officebot_description/meshes/otchassis.stl" scale="0.01 0.01 0.01"/> 
       </geometry>
       <material name="Cyan">
       <color rgba="0 1.0 1.0 1.0"/>
