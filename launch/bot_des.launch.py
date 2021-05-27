@@ -8,6 +8,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
 
+from launch.conditions import IfCondition, UnlessCondition
 
 
 
@@ -23,6 +24,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     rviz_config_dir=LaunchConfiguration('rviz_config_dir')
+    run_rviz2=LaunchConfiguration('run_rviz2')
 
 
     declare_sim_time=DeclareLaunchArgument(
@@ -31,10 +33,17 @@ def generate_launch_description():
                 description='Use simulation (Gazebo) clock if true')
 
 
+    declare_rviz_launch=DeclareLaunchArgument(
+                'run_rviz2',
+                default_value='false',
+                description='run rviz')
+
+
     declare_rviz_config=DeclareLaunchArgument(
                 'rviz_config_dir',
-                default_value=os.path.join(current_dir,'rviz','urdf_test.rviz'),
+                default_value=os.path.join(current_dir,'rviz','display_bot_urdf.rviz'),
                 description='default path to rviz config file')
+
 
 
     robot_state_publisher_node = Node(
@@ -45,7 +54,8 @@ def generate_launch_description():
 
     ld=LaunchDescription()
 
-    run_rviz2=Node(
+    launch_rviz2=Node(
+                condition=IfCondition(run_rviz2),
                 package='rviz2',
                executable='rviz2',
                 name='rviz2',
@@ -54,8 +64,9 @@ def generate_launch_description():
                 output='screen')
 
 
+    ld.add_action(declare_rviz_launch)
     ld.add_action(declare_sim_time)
     ld.add_action(declare_rviz_config)
-    ld.add_action(run_rviz2)
+    ld.add_action(launch_rviz2)
     ld.add_action(robot_state_publisher_node)
     return ld
