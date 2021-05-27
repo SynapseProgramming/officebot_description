@@ -1,19 +1,30 @@
 <?xml version="1.0"?>
 <robot name="office_bot" xmlns:xacro="http://ros.org/wiki/xacro">
-<!--
-  <xacro:property name="base_width" value="0.30"/>
-  <xacro:property name="base_length" value="0.28"/>
-  <xacro:property name="base_height" value="0.03"/>
+
+  <xacro:property name="base_width" value="0.50"/>
+  <xacro:property name="base_length" value="0.50"/>
+  <xacro:property name="base_height" value="0.476"/>
   <xacro:property name="wheel_diameter" value="0.0624"/>
   <xacro:property name="wheel_y_offset" value="0.13"/>
--->
+
 <!-- Robot Base -->
   <link name="bot_base">
     <visual>
       <geometry>
+      <mesh filename="package://officebot_description/meshes/otchassis.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="Cyan">
+      <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+      <!-- the origin tag defines the transform of the model with respect to its own tf frame -->
+      <origin rpy="0 0 ${pi/2}" xyz="0 0 0"/>
+    </visual>
+  </link>
 
-        <!--<box size="1 1 1"/> -->
-      <mesh filename="package://officebot_description/meshes/otchassis.stl" scale="0.01 0.01 0.01"/> 
+  <link name="base_laser">
+    <visual>
+      <geometry>
+      <mesh filename="package://officebot_description/meshes/sick_tim_571.stl"/>
       </geometry>
       <material name="Cyan">
       <color rgba="0 1.0 1.0 1.0"/>
@@ -23,8 +34,12 @@
     </visual>
   </link>
 
-
  <link name="base_link">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </link>
+
+
+ <link name="sensor_plate_link">
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </link>
 
@@ -32,7 +47,21 @@
     <parent link="base_link"/>
     <child link="bot_base"/>
     <!--The origin defines the transform  -->
-    <origin rpy="0 0 0" xyz="0 0 0.0624"/>
+    <origin rpy="0 0 0" xyz="0 0 0.0645"/>
+  </joint>
+
+  <joint name="botbottom_to_topsensorplate" type="fixed">
+    <parent link="bot_base"/>
+    <child link="sensor_plate_link"/>
+    <!--The origin defines the transform  -->
+    <origin rpy="0 0 0" xyz="0 0 0.476"/>
+  </joint>
+
+  <joint name="topsensorplate_to_base_laser" type="fixed">
+    <parent link="sensor_plate_link"/>
+    <child link="base_laser"/>
+    <!--The origin defines the transform  -->
+    <origin rpy="0 0 0" xyz="0 0 0.07246"/>
   </joint>
 
 </robot>
