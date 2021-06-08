@@ -7,6 +7,10 @@
   <xacro:property name="wheel_diameter" value="0.0624"/>
   <xacro:property name="wheel_y_offset" value="0.13"/>
 
+  <xacro:arg name="use_nominal_extrinsics" default="true"/>
+  <xacro:include filename="$(find officebot_description)/urdf/_d435.urdf.xacro" />
+
+
 <!-- Robot Base -->
   <link name="bot_base">
     <visual>
@@ -64,4 +68,7 @@
     <origin rpy="0 0 0" xyz="0 0 0.07246"/>
   </joint>
 
+ <xacro:sensor_d435 parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+    <origin xyz="0 0 1" rpy="0 0 0"/>
+  </xacro:sensor_d435>
 </robot>
